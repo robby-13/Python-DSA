@@ -1,54 +1,88 @@
 class Node:
-    def __init__(self, data, nextNode=None):
+    def __init__(self, data):
         self.data = data
-        self.next = nextNode
+        self.next = None
 
 
 class LinkedList:
-    def __init__(self, head=None):
-        self.head = head
-        self.size = 0
+    def __init__(self):
+        self.head = None
 
-    def append(self, value):
-        node = Node(value)
-
-        if self.head is None:
-            self.head = node
-            self.size += 1
-            return
-        else:
-            temp = self.head
-            while temp:
-                if temp.next is None:
-                    temp.next = node
-                    self.size += 1
-                    break
-                temp = temp.next
+    def isEmpty(self):
+        return self.head is None
 
     def prepend(self, value):
-        node = Node(value)
+        temp = Node(value)
+        temp.next = self.head
+        self.head = temp
 
-        if self.head is None:
-            self.head = node
-            self.size += 1
-            return
-        else:
-            temp = self.head
-            self.head = node
-            node.next = temp
-            self.size += 1
+    def append(self, value):
+        temp = Node(value)
+        current = self.head
+
+        if not self.head:
+            self.head = temp
+            temp.next = None
+
+        while current:
+            if current.next is None:
+                current.next = temp
+                temp.next = None
+            current = current.next
 
     def printLL(self):
         temp = self.head
-        while temp is not None:
+        while temp:
             print(temp.data)
             temp = temp.next
 
+    def size(self):
+        count = 0
+        temp = self.head
+        while temp:
+            count += 1
+            temp = temp.next
+
+        return count
+
+    def search(self, value):
+        temp = self.head
+
+        while temp:
+            if temp.data == value:
+                return True
+            temp = temp.next
+
+        return False
+
+    def remove(self, value):
+        temp = self.head
+        prev = None
+        found = False
+
+        while not found:
+            if temp.data == value:
+                found = True
+            else:
+                prev = temp
+                temp = temp.next
+
+        if prev is None:
+            self.head = temp.next
+        else:
+            prev.next = temp.next
+
 
 l1 = LinkedList()
-l1.append(1)
-l1.append(2)
-l1.append(3)
+l1.prepend(1)
+l1.prepend(2)
+l1.prepend(3)
 l1.printLL()
+print()
+l1.append(5)
+print()
+l1.remove(2)
+l1.printLL()
+
 
 
